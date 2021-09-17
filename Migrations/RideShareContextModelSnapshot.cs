@@ -48,6 +48,40 @@ namespace AdessoRideShare.Migrations
 
                     b.ToTable("RidePlans");
                 });
+
+            modelBuilder.Entity("AdessoRideShare.Models.SharedRides", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<string>("PassengerName")
+                        .HasColumnType("text");
+
+                    b.Property<string>("PassengerSurName")
+                        .HasColumnType("text");
+
+                    b.Property<long>("RidePlanId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RidePlanId");
+
+                    b.ToTable("SharedRides");
+                });
+
+            modelBuilder.Entity("AdessoRideShare.Models.SharedRides", b =>
+                {
+                    b.HasOne("AdessoRideShare.Models.RidePlan", "RidePlan")
+                        .WithMany()
+                        .HasForeignKey("RidePlanId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("RidePlan");
+                });
 #pragma warning restore 612, 618
         }
     }

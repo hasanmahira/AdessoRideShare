@@ -27,6 +27,13 @@ namespace AdessoRideShare.Controllers
             return await _context.RidePlans.ToListAsync();
         }
 
+        // GET: api/RidePlans
+        [HttpGet("{from},{where}")]
+        public async Task<ActionResult<IEnumerable<RidePlan>>> GetAllPublishedRidePlans(string from, string where)
+        {
+            return await _context.RidePlans.Where(x => x.From.ToLower() == from.ToLower() && x.Where.ToLower() == where.ToLower()).ToListAsync();
+        }
+
         // GET: api/RidePlans/5
         [HttpGet("{id}")]
         public async Task<ActionResult<RidePlan>> GetRidePlan(long id)
@@ -71,6 +78,45 @@ namespace AdessoRideShare.Controllers
 
             return NoContent();
         }
+
+
+        // PUT: api/PublishRidePlan/5
+        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [HttpPut("{rideId}")]
+        public async Task<IActionResult> PublishRidePlan(long id)
+        {
+            RidePlan ridePlan = _context.RidePlans.Find(id);
+
+            if (ridePlan.IsPublished != true)
+            {
+                ridePlan.IsPublished = true;
+            }
+            else
+            {
+                ridePlan.IsPublished = false;
+            }
+
+            _context.Entry(ridePlan).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!RidePlanExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return NoContent();
+        }
+
 
         // POST: api/RidePlans
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
