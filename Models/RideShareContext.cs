@@ -11,5 +11,6 @@ namespace AdessoRideShare.Models
 
         public DbSet<RidePlan> RidePlans { get; set; }
         public DbSet<SharedRides> SharedRides { get; set; }
+        public DbSet<Cities> Cities { get; set; }
     }
 }

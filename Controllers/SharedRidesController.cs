@@ -20,14 +20,12 @@ namespace AdessoRideShare.Controllers
             _context = context;
         }
 
-        // GET: api/SharedRides
         [HttpGet]
         public async Task<ActionResult<IEnumerable<SharedRides>>> GetSharedRides()
         {
             return await _context.SharedRides.ToListAsync();
         }
 
-        // GET: api/SharedRides/5
         [HttpGet("{id}")]
         public async Task<ActionResult<SharedRides>> GetSharedRides(long id)
         {
@@ -41,8 +39,6 @@ namespace AdessoRideShare.Controllers
             return sharedRides;
         }
 
-        // PUT: api/SharedRides/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
         public async Task<IActionResult> PutSharedRides(long id, SharedRides sharedRides)
         {
@@ -72,8 +68,6 @@ namespace AdessoRideShare.Controllers
             return NoContent();
         }
 
-        // POST: api/SharedRides
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         public async Task<ActionResult<SharedRides>> PostSharedRides(SharedRides sharedRides)
         {
@@ -85,7 +79,6 @@ namespace AdessoRideShare.Controllers
                 _context.SharedRides.Add(sharedRides);
                 await _context.SaveChangesAsync();
 
-                //return CreatedAtAction("GetSharedRides", new { id = sharedRides.Id }, sharedRides);
                 return CreatedAtAction(nameof(GetSharedRides), new { id = sharedRides.Id }, sharedRides);
             }
 
@@ -93,7 +86,6 @@ namespace AdessoRideShare.Controllers
 
         }
 
-        // DELETE: api/SharedRides/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteSharedRides(long id)
         {

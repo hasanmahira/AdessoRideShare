@@ -19,6 +19,28 @@ namespace AdessoRideShare.Migrations
                 .HasAnnotation("ProductVersion", "5.0.10")
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
+            modelBuilder.Entity("AdessoRideShare.Models.Cities", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<int>("Latitude")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("Longitude")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Cities");
+                });
+
             modelBuilder.Entity("AdessoRideShare.Models.RidePlan", b =>
                 {
                     b.Property<long>("Id")
@@ -30,10 +52,11 @@ namespace AdessoRideShare.Migrations
                         .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("Description")
+                        .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("From")
-                        .HasColumnType("text");
+                    b.Property<int>("FromId")
+                        .HasColumnType("integer");
 
                     b.Property<bool>("IsPublished")
                         .HasColumnType("boolean");
@@ -41,10 +64,14 @@ namespace AdessoRideShare.Migrations
                     b.Property<int>("NumberOfSeats")
                         .HasColumnType("integer");
 
-                    b.Property<string>("Where")
-                        .HasColumnType("text");
+                    b.Property<int>("WhereId")
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("FromId");
+
+                    b.HasIndex("WhereId");
 
                     b.ToTable("RidePlans");
                 });
@@ -57,9 +84,11 @@ namespace AdessoRideShare.Migrations
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
                     b.Property<string>("PassengerName")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("PassengerSurName")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<long>("RidePlanId")
@@ -70,6 +99,25 @@ namespace AdessoRideShare.Migrations
                     b.HasIndex("RidePlanId");
 
                     b.ToTable("SharedRides");
+                });
+
+            modelBuilder.Entity("AdessoRideShare.Models.RidePlan", b =>
+                {
+                    b.HasOne("AdessoRideShare.Models.Cities", "From")
+                        .WithMany()
+                        .HasForeignKey("FromId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("AdessoRideShare.Models.Cities", "Where")
+                        .WithMany()
+                        .HasForeignKey("WhereId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("From");
+
+                    b.Navigation("Where");
                 });
 
             modelBuilder.Entity("AdessoRideShare.Models.SharedRides", b =>

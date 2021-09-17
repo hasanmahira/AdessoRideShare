@@ -20,21 +20,18 @@ namespace AdessoRideShare.Controllers
             _context = context;
         }
 
-        // GET: api/RidePlans
         [HttpGet]
         public async Task<ActionResult<IEnumerable<RidePlan>>> GetRidePlans()
         {
             return await _context.RidePlans.ToListAsync();
         }
 
-        // GET: api/RidePlans
         [HttpGet("{from},{where}")]
         public async Task<ActionResult<IEnumerable<RidePlan>>> GetAllPublishedRidePlans(string from, string where)
         {
-            return await _context.RidePlans.Where(x => x.From.ToLower() == from.ToLower() && x.Where.ToLower() == where.ToLower()).ToListAsync();
+            return await _context.RidePlans.Where(x => x.From.Name.ToLower() == from.ToLower() && x.Where.Name.ToLower() == where.ToLower()).ToListAsync();
         }
 
-        // GET: api/RidePlans/5
         [HttpGet("{id}")]
         public async Task<ActionResult<RidePlan>> GetRidePlan(long id)
         {
@@ -48,8 +45,6 @@ namespace AdessoRideShare.Controllers
             return ridePlan;
         }
 
-        // PUT: api/RidePlans/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
         public async Task<IActionResult> PutRidePlan(long id, RidePlan ridePlan)
         {
@@ -80,8 +75,6 @@ namespace AdessoRideShare.Controllers
         }
 
 
-        // PUT: api/PublishRidePlan/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{rideId}")]
         public async Task<IActionResult> PublishRidePlan(long id)
         {
@@ -118,8 +111,6 @@ namespace AdessoRideShare.Controllers
         }
 
 
-        // POST: api/RidePlans
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         public async Task<ActionResult<RidePlan>> PostRidePlan(RidePlan ridePlan)
         {
@@ -131,7 +122,6 @@ namespace AdessoRideShare.Controllers
 
         }
 
-        // DELETE: api/RidePlans/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteRidePlan(long id)
         {
