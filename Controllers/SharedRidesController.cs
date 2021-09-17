@@ -21,13 +21,13 @@ namespace AdessoRideShare.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<SharedRides>>> GetSharedRides()
+        private async Task<ActionResult<IEnumerable<SharedRides>>> GetSharedRides()
         {
             return await _context.SharedRides.ToListAsync();
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<SharedRides>> GetSharedRides(long id)
+        private async Task<ActionResult<SharedRides>> GetSharedRides(long id)
         {
             var sharedRides = await _context.SharedRides.FindAsync(id);
 
@@ -40,7 +40,7 @@ namespace AdessoRideShare.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutSharedRides(long id, SharedRides sharedRides)
+        private async Task<IActionResult> PutSharedRides(long id, SharedRides sharedRides)
         {
             if (id != sharedRides.Id)
             {
@@ -79,15 +79,13 @@ namespace AdessoRideShare.Controllers
                 _context.SharedRides.Add(sharedRides);
                 await _context.SaveChangesAsync();
 
-                return CreatedAtAction(nameof(GetSharedRides), new { id = sharedRides.Id }, sharedRides);
             }
-
-            return sharedRides;
+             return CreatedAtAction(nameof(GetSharedRides), new { id = sharedRides.Id }, sharedRides);
 
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteSharedRides(long id)
+        private async Task<IActionResult> DeleteSharedRides(long id)
         {
             var sharedRides = await _context.SharedRides.FindAsync(id);
             if (sharedRides == null)

@@ -76,6 +76,28 @@ namespace AdessoRideShare.Migrations
                     b.ToTable("RidePlans");
                 });
 
+            modelBuilder.Entity("AdessoRideShare.Models.RidePossibleRoutes", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<int>("PassingCityId")
+                        .HasColumnType("integer");
+
+                    b.Property<long>("RidePlanId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PassingCityId");
+
+                    b.HasIndex("RidePlanId");
+
+                    b.ToTable("RidePossibleRoutes");
+                });
+
             modelBuilder.Entity("AdessoRideShare.Models.SharedRides", b =>
                 {
                     b.Property<long>("Id")
@@ -118,6 +140,25 @@ namespace AdessoRideShare.Migrations
                     b.Navigation("From");
 
                     b.Navigation("Where");
+                });
+
+            modelBuilder.Entity("AdessoRideShare.Models.RidePossibleRoutes", b =>
+                {
+                    b.HasOne("AdessoRideShare.Models.Cities", "PassingCity")
+                        .WithMany()
+                        .HasForeignKey("PassingCityId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("AdessoRideShare.Models.RidePlan", "RidePlan")
+                        .WithMany()
+                        .HasForeignKey("RidePlanId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("PassingCity");
+
+                    b.Navigation("RidePlan");
                 });
 
             modelBuilder.Entity("AdessoRideShare.Models.SharedRides", b =>
